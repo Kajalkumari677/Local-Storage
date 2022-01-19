@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        th,td{
+            border: 1px solid black;
+            padding:10px ;
+        }
+        button{
+            background-color: teal;
+            color: white;
+        }
+    </style>
+
+</head>
+<body>
+   <form>
+        <h1>TODO LIST</h1>
+    <label for="">Name</label>
+    <input type="text" id="name" placeholder="enter name"/>
+
+    <label for="">Quantity</label>
+    <input type="number" id="qty"placeholder="enter Quantity"/>
+     
+     <label for="">Priority</label>
+    <select id="Priority">
+        <option value="">--</option>
+        <option value="high">High</option>
+        <option value="medium">Medium</option>
+        <option value="low">Low</option>
+        
+    </select>
+    <input type="submit" value="submit"/>
+
+    <table>
+        <thead>
+                <tr>
+                    <td>Item</td>
+                    <td>Quantity</td>
+                    <td>Priority</td>
+                </tr>
+            </thead>
+            
+        <tbody>
+            
+        </tbody>
+    </table>
+
+   </form>
+</body>
+</html>
+
+<script>
+    document.querySelector("form").addEventListener("submit",addItem);
+   //intially if my local storage has nothing we can give empty array
+    var shoppingList=JSON.parse(localStorage.getItem("totalList"))||[];
+
+    function addItem(event)
+    {
+       event.preventDefault();
+    //    console.log("here");
+       var name=document.getElementById("name").value;
+       var qty=document.getElementById("qty").value;
+       var Priority=document.getElementById("Priority").value;
+    //    console.log(name,qty,Priority)
+
+        var list={
+            itemName:name,
+            itemQty:qty,
+            itemPriority:Priority,
+        };
+
+        shoppingList.push(list);
+        localStorage.setItem("totalList",JSON.stringify(shoppingList))
+
+        //console.log(shoppingList)
+        displayItem(shoppingList);
+
+    }
+    function displayItem(shoppingList)
+    {
+
+        document.querySelector("tbody").textContent="";
+        shoppingList.map(function(item,index){
+        // console.log(item)
+            
+      var body=document.querySelector("tbody")
+      var row=document.createElement("tr");
+
+      var col1=document.createElement("td");
+      col1.textContent=item.itemName;
+
+      var col2=document.createElement("td");
+      col2.textContent=item.itemQty;
+
+      var col3=document.createElement("td");
+      col3.textContent=item.itemPriority;
+
+      var col4=document.createElement("td");
+      col4.innerHTML="<button>Delete</button>";
+      col4.addEventListener("click",function(){
+          makeDelete(index);
+      })
+
+     row.append(col1,col2,col3,col4);
+     body.append(row);
+
+
+
+
+        });
+    }
+
+     window.addEventListener("load",function(){
+         displayItem(shoppingList);
+
+     });
+     
+    function makeDelete(index)
+    {
+       // console.log(shoppingList)
+        shoppingList.splice(index,1);
+        localStorage.setItem("totalList",JSON.stringify(shoppingList))
+        displayItem(shoppingList)
+       // console.log(shoppingList)
+    }
+    
+
+
+
+
+
+
+
+
+
+
+
+</script>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        th,td{
+            border:1px solid black;
+            padding:10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Shopping List</h1>
+    <form>
+        <label for="">Name</label>
+        <input id="name" type="text" placeholder="enter the name"/>
+         <label for="">Quantity</label>
+        <input id="qty" type="text" placeholder="enter the quantity"/>
+         <label for="">Priority</label>
+       <select id="priority" name="" id="">
+           <option value="--">--</option>
+           <option value="high">High</option>
+           <option value="medium">Medium</option>
+           <option value="low">Low</option>
+       </select>
+       <input type="submit" value="submit"/>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Priority</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</body>
+</html>
+
+<script>
+      document.querySelector("form").addEventListener("submit",addItem);
+      var shoppingList=JSON.parse(localStorage.getItem("totalList"));
+
+      function addItem(event){
+           event.preventDefault();
+           var name=document.getElementById("name").value;
+           var qty=document.getElementById("qty").value;
+           var Priority=document.getElementById("priority").value;
+           console.log(name,qty,Priority)
+            
+           var list={
+               itemName: name,
+               itemQty: qty,
+               itemPriority:Priority,
+
+           };
+           console.log(list);
+           shoppingList.push(list);
+        //    console.log("shoppingList:",shoppingList);
+        localStorage.getItem("totalList",JSON.stringify(shoppingList));
+        displayItems(shoppingList);
+      }
+      window.addEventListener("load",function() {
+          displayItem(shoppingList);
+      });
+
+
+
+
+      function displayItem(shoppingList){
+    document.querySelector("tbody").innerHTML="";
+
+        shoppingList.map(function(item){
+            var tr=document.createElement("tr");
+
+            var td1=document.createElement("td");
+            td1.textContent=item.itemName
+
+            var td2=document.createElement("td");
+            td2.textContent=item.itemQty
+
+            var td3=document.createElement("td");
+            td3.textContent=item.itemPriority
+            tr.append(td1,td2,td3);
+            document.querySelector("tbody").append(tr);
+
+        })
+      }
+
+    </script>

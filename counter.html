@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Increment decrement</title>
+</head>
+<body>
+    <h1>Local storage</h1>
+    <h1 id="res"></h1>
+    <button id="dec">Decrement</button>
+    <button id="inc">Increment</button>
+</body>
+</html>
+<script>
+   var cnt=localStorage.getItem("counter")||0;
+   if(cnt==0)
+   {
+       alert("Null");
+      // console.log("null")
+   }
+   document.getElementById("dec").addEventListener("click",decFun);
+   document.getElementById("inc").addEventListener("click",incFun);
+
+  
+
+   function incFun()
+   {
+       cnt++;
+       localStorage.setItem("counter",cnt)
+       document.getElementById("res").textContent=cnt;
+       
+   }
+    function decFun()
+   {
+       cnt--;
+       localStorage.setItem("counter",cnt)
+       document.getElementById("res").textContent=cnt;
+       
+   }
+   window.addEventListener("load",function(){
+   document.getElementById("res").textContent=cnt;
+  });
+  
+</script>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bazoz product</title>
+    <style>
+        body{
+            background-color: black;
+            font-family: sans-serif;
+        }
+        #container{
+         width:80%;
+         margin:auto;
+         margin-top: 40px;
+         display:flex;
+         background-color: white;
+         padding:20px;
+         column-gap: 20px;
+
+        }
+        td{
+            /* border:1px solid black; */
+            padding:20px;
+        }
+       
+        form{
+            padding:20px;
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    
+            width:38%;
+            /* border:1px solid red; */
+        }
+        table{
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    
+            /* border:1px solid red; */
+            width:58%;
+            height:300px;
+            padding:20px;
+        }
+       h1{
+           color:rgb(12, 140, 190)
+       }
+       select{
+           height:40px;
+           width:350px;
+       }
+       #title{
+          height:40px;
+           width:350px; 
+       }
+       #price{
+           height:40px;
+           width:350px; 
+       }
+       #add{
+           background-color: rgb(13, 156, 212);
+           width:70px;
+           height:30px;
+           border-radius: 5px;
+           border:black;
+       }
+       label{
+           font-weight: bold;
+       }
+
+    </style>
+</head>
+<body>
+    
+        <form>
+        <h1>ADD PRODUCT</h1>
+        <label>Category</label>
+        <br><br>
+        <select id="category">
+            <option value="electronics furniture">Electronics Furniture</option>
+            <option value="home">Home</option>
+            <option value="appliances">Appliances</option>
+            <option value="books">Books</option>
+        </select>
+        <br><br>
+
+        <label>Title</label>
+        <br><br>
+        <input id="title" type="text" placeholder="Enter Title"/>
+        <br><br>
+
+        <label>Description</label>
+        <br><br>
+         <textarea id="desc" rows="5" cols="45"></textarea>
+         <br><br>
+
+
+        <label>Price</label>
+        <br><br>
+        <input id="price" type="text" placeholder="enter Price"/>
+         <br><br>
+
+        <input id="add" type="submit" value="Add"/>
+    
+    
+    </form>
+   
+     
+
+       
+        <table>
+        
+        <thead>
+            <th>
+                <h1>PRODUCT INFO</h1>
+                
+            </th>
+                <tr>
+                  <td>Category</td>
+                  <td>Title</td>
+                  <td>Description</td>
+                  <td>Price</td>
+               </tr>
+           
+            
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+   
+
+</body>
+</html>
+
+
+<script>
+    document.querySelector("form").addEventListener("submit",addItem);
+
+     var productList=JSON.parse(localStorage.getItem("Bozaz"))||[];
+    function addItem(event)
+    {
+    
+        
+      event.preventDefault();
+      var Category=document.getElementById("category").value;
+      var Title=document.getElementById("title").value;
+      var Description=document.getElementById("desc").value;
+      var Price=document.getElementById("price").value;
+      console.log(Category,Title,Description, Price)
+
+       var list={
+           ProductCategory:Category,
+           ProductTitle:Title,
+           ProductDescription:Description,
+           ProductPrice:Price,
+
+       };
+       productList.push(list);
+       localStorage.setItem("Bozaz",JSON.stringify(productList));
+
+       console.log(productList);
+       displayProduct(productList);
+
+
+    }
+    function displayProduct(productList)
+    {
+          document.querySelector("tbody").textContent="";
+        productList.map(function(product,index){
+        
+        var tbody=document.querySelector("tbody");
+        var row=document.createElement("tr");
+
+
+        var col1=document.createElement("td");
+        col1.textContent=product.ProductCategory;
+
+        var col2=document.createElement("td")
+        col2.textContent=product.ProductTitle;
+
+        var col3=document.createElement("td")
+        col3.textContent=product.ProductDescription;
+
+        var col4=document.createElement("td")
+        col4.textContent=product.ProductPrice;
+         
+        var hr = document.createElement("hr");
+
+       
+        row.append(col1,col2,col3,col4);
+        tbody.append(row);
+
+        });
+       
+    }
+     var body=document.querySelector("body");
+     var mainDiv=document.createElement("div");
+     mainDiv.setAttribute("id","container")
+    
+
+
+     var leftDiv=document.querySelector("form")
+
+     var rightDiv=document.querySelector("table");
+     mainDiv.append(leftDiv,rightDiv);
+     body.append(mainDiv);
+     
+
+
+   
+    
+
+
+</script>
